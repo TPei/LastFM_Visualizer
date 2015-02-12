@@ -1,2 +1,2 @@
 # LastFM_Visualizer
-Visualizes LastFM data (e.g. obtained from Spotify)
+Visualizes LastFM data (e.g. scrobbled from Spotify)
