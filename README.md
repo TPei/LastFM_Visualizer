@@ -1,4 +1,4 @@
 # LastFM_Visualizer
 Visualizes LastFM data (e.g. scrobbled from Spotify)
-![Github languages](https://github.com/TPei/LastFM_Visualizer/blob/master/img/per_band.png)
-![Github languages](https://github.com/TPei/LastFM_Visualizer/blob/master/img/per_album.png)
+![Per Band Visualization](https://github.com/TPei/LastFM_Visualizer/blob/master/images/per_band.png)
+![Per Album Visualization](https://github.com/TPei/LastFM_Visualizer/blob/master/images/per_album.png)
