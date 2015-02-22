@@ -9,7 +9,10 @@ def pprint(json_data):
 
 if __name__ == '__main__':
     base_url = 'http://ws.audioscrobbler.com/2.0/'
-    params = {'method': 'user.gettoptracks',
+    #method = 'user.gettoptracks'
+    method = 'user.topartists'
+
+    params = {'method': method,
               'api_key': api_key,
               'user': 'dragon5689',
               'format': 'json'}
@@ -17,9 +20,27 @@ if __name__ == '__main__':
 
     r = requests.get(base_url, params=params)
 
-    tracks = r.json()['toptracks']['track']
+    #tracks = r.json()['toptracks']['track']
+    tracks = r.json()['topartists']['artist']
+    values = []
+    labels = []
     for track in tracks:
+        values.append(int(track['playcount']))
+        labels.append(track['name'])
         print(track['name'], track['playcount'])
+
+    values = values[:10]
+    labels = labels[:10]
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    ind = np.arange(len(values))
+    width = 0.35
+    plt.bar(ind, values, width)
+    plt.xticks(ind+width/2., labels, rotation=-45)
+
+    plt.show()
 
 
 

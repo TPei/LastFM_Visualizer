@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>LastFM Visualizer</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="api.js"></script>
+    <script src="lastfm.js"></script>
+</head>
+<body>
+    <div id="choice">
+        <select name="visualization" multiple="multiple">
+            <option selected="selected">top artists</option>
+            <option>top tracks</option>
+            <option>top albums</option>
+        </select>
+    </div>
+    <div class="floatleft" style="float: left;">
+        <div id="container" style="width: 900px; height: 600px;"></div>
+    </div>
+</body>
+</html>
