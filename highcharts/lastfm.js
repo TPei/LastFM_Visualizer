@@ -26,12 +26,22 @@ var load = function (method) {
     var base_url = 'http://ws.audioscrobbler.com/2.0/';
     method = 'user.' + method;
 
+
+    var usernameInput = $('#username').val();
+    var username;
+    if(usernameInput != ""){
+        username = usernameInput;
+    }
+    else {
+        username = 'dragon5689';
+    }
+
     // is taken from another js file
     var api_key = global_api_key;
     var params = {
         'method': method,
         'api_key': api_key,
-        'user': 'dragon5689',
+        'user': username,
         'format': 'json'
     };
 
@@ -83,7 +93,7 @@ var load = function (method) {
                 text: text
             },
             subtitle: {
-                text: 'Source: Spotify via LastFM'
+                text: 'Source: ' + username + '\'s LastFM data'
             },
             yAxis: {
                 title: {
