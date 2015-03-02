@@ -1,22 +1,34 @@
 $(document).ready(function(){
     $( "select" ).change(function () {
-        var str = "";
-        $( "select option:selected" ).each(function() {
-            str += $( this ).text() + " ";
-        });
-        console.log(str);
-        if(str == 'top tracks '){
-            load('gettoptracks');
-        }
-        else if (str == 'top artists ') {
-            load('topartists');
-        }
-        else if (str == 'top albums ') {
-            load('gettopalbums')
-        }
+        run();
     });
+
+    $('#limit').change(function() {
+        limit = $('#limit').val();
+        run()
+    });
+
     load('topartists');
 });
+
+function run() {
+    var str = "";
+    $( "select option:selected" ).each(function() {
+        str += $( this ).text() + " ";
+    });
+    console.log(str);
+    if(str == 'top tracks '){
+        load('gettoptracks');
+    }
+    else if (str == 'top artists ') {
+        load('topartists');
+    }
+    else if (str == 'top albums ') {
+        load('gettopalbums')
+    }
+}
+
+var limit = 10;
 
 var load = function (method) {
     $('#container').empty();
@@ -42,6 +54,7 @@ var load = function (method) {
         'method': method,
         'api_key': api_key,
         'user': username,
+        'limit': limit,
         'format': 'json'
     };
 
@@ -69,7 +82,7 @@ var load = function (method) {
         var plays = [];
 
         jQuery.each(dataArray, function(i, val) {
-            if(bands.length < 10) {
+            if(bands.length < limit) {
                 bands.push(val.name);
                 plays.push(parseInt(val.playcount));
             }
