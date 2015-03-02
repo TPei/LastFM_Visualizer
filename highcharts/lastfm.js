@@ -5,7 +5,11 @@ $(document).ready(function(){
 
     $('#limit').change(function() {
         limit = $('#limit').val();
-        run()
+        run();
+    });
+
+    $('#username').change(function(){
+       run();
     });
 
     load('topartists');
@@ -13,7 +17,7 @@ $(document).ready(function(){
 
 function run() {
     var str = "";
-    $( "select option:selected" ).each(function() {
+    $("select option:selected" ).each(function() {
         str += $( this ).text() + " ";
     });
     console.log(str);
