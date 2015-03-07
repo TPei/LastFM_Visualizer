@@ -67,7 +67,6 @@ var load = function (method) {
     for (var key in params) {
         url += '&' + key + '=' + params[key];
     }
-    console.log(url);
 
     $.getJSON(url, function(json) {
 
@@ -84,69 +83,122 @@ var load = function (method) {
 
         var bands = [];
         var plays = [];
+        var playsThisWeek = [];
+
+        var bandsRecent = [];
+        var playsRecent = [];
 
         jQuery.each(dataArray, function(i, val) {
             if(bands.length < limit) {
                 bands.push(val.name);
+                //console.log(val.artist.name);
                 plays.push(parseInt(val.playcount));
             }
         });
-        var text = "";
-        if(method == 'user.topartists'){
-            text = "Plays per Band"
-        }
-        else if (method == 'user.gettoptracks'){
-            text = "Plays per Track";
-        }
-        else if (method == 'user.gettopalbums') {
-            text = "Plays per Album";
+
+        var params = {
+            'method': method,
+            'api_key': api_key,
+            'user': username,
+            'limit': 100,
+            'period': '7day',
+            'format': 'json'
+        };
+
+        var url = base_url + '?' + 'method=' + method;
+
+        for (var key in params) {
+            url += '&' + key + '=' + params[key];
         }
 
-        $('#container').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: text
-            },
-            subtitle: {
-                text: 'Source: ' + username + '\'s LastFM data'
-            },
-            yAxis: {
+        $.getJSON(url, function(json) {
+            var dataArray;
+            if (method == 'user.topartists') {
+                dataArray = json.topartists.artist;
+            }
+            else if (method == 'user.gettoptracks') {
+                dataArray = json.toptracks.track;
+            }
+            else if (method == 'user.gettopalbums') {
+                dataArray = json.topalbums.album
+            }
+
+            jQuery.each(dataArray, function (i, val) {
+                bandsRecent.push(val.name);
+                playsRecent.push(parseInt(val.playcount));
+            });
+            for(var i = 0; i < bands.length; i++) {
+                var recentCount = bandsRecent.indexOf(bands[i]);
+                if(recentCount == -1){
+                    playsThisWeek.push(0);
+                }
+                else {
+                    playsThisWeek.push(playsRecent[recentCount]);
+                }
+            }
+
+
+            var text = "";
+            if(method == 'user.topartists'){
+                text = "Plays per Band"
+            }
+            else if (method == 'user.gettoptracks'){
+                text = "Plays per Track";
+            }
+            else if (method == 'user.gettopalbums') {
+                text = "Plays per Album";
+            }
+
+            $('#container').highcharts({
+                chart: {
+                    type: 'column'
+                },
                 title: {
-                    text: 'Playcount'
-                }
-            },
-            xAxis: {
-                categories: bands
-            },
-            tooltip: {
-                valueSuffix: ' times'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
+                    text: text
+                },
+                subtitle: {
+                    text: 'Source: ' + username + '\'s LastFM data'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Playcount'
                     }
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                y: 80,
-                floating: true,
-                borderWidth: 1,
-                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                shadow: true
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'PlayCount',
-                data: plays
-            }]
+                },
+                xAxis: {
+                    categories: bands
+                },
+                tooltip: {
+                    valueSuffix: ' times'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'PlayCount',
+                    data: plays
+                }, {
+                    name: 'this week',
+                    data: playsThisWeek
+                }]
+            });
         });
+
     });
 };
