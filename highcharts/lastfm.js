@@ -12,7 +12,7 @@ $(document).ready(function(){
        run();
     });
 
-    load('topartists');
+    load('gettopartists');
 });
 
 function run() {
@@ -25,7 +25,7 @@ function run() {
         load('gettoptracks');
     }
     else if (str == 'top artists ') {
-        load('topartists');
+        load('gettopartists');
     }
     else if (str == 'top albums ') {
         load('gettopalbums')
@@ -71,7 +71,7 @@ var load = function (method) {
     $.getJSON(url, function(json) {
 
         var dataArray;
-        if(method == 'user.topartists'){
+        if(method == 'user.gettopartists'){
             dataArray = json.topartists.artist;
         }
         else if(method == 'user.gettoptracks') {
@@ -113,7 +113,7 @@ var load = function (method) {
 
         $.getJSON(url, function(json) {
             var dataArray;
-            if (method == 'user.topartists') {
+            if (method == 'user.gettopartists') {
                 dataArray = json.topartists.artist;
             }
             else if (method == 'user.gettoptracks') {
@@ -139,7 +139,7 @@ var load = function (method) {
 
 
             var text = "";
-            if(method == 'user.topartists'){
+            if(method == 'user.gettopartists'){
                 text = "Plays per Band"
             }
             else if (method == 'user.gettoptracks'){
