@@ -30,6 +30,15 @@ function run() {
     else if (str == 'top albums ') {
         load('gettopalbums')
     }
+    else if(str == 'weekly tracks '){
+        load('getweeklytrackchart');
+    }
+    else if (str == 'weekly artists ') {
+        load('getweeklyartistchart');
+    }
+    else if (str == 'weekly albums ') {
+        load('getweeklyalbumchart')
+    }
 }
 
 var limit = 10;
@@ -78,7 +87,16 @@ var load = function (method) {
             dataArray = json.toptracks.track;
         }
         else if (method == 'user.gettopalbums') {
-            dataArray = json.topalbums.album
+            dataArray = json.topalbums.album;
+        }
+        else if(method == 'user.getweeklyartistchart'){
+            dataArray = json.weeklyartistchart.artist;
+        }
+        else if(method == 'user.getweeklytrackchart') {
+            dataArray = json.weeklytrackchart.track;
+        }
+        else if (method == 'user.getweeklyalbumchart') {
+            dataArray = json.weeklyalbumchart.album;
         }
 
         var d = {};
@@ -200,6 +218,38 @@ var load = function (method) {
                 else if (method == 'user.gettopalbums') {
                     text = "Plays per Album";
                 }
+                else if(method == 'user.getweeklyartistchart'){
+                    text = "Plays per Band this week"
+                }
+                else if(method == 'user.getweeklytrackchart') {
+                    text = "Plays per Track this week";
+                }
+                else if (method == 'user.getweeklyalbumchart') {
+                    text = "Plays per Band this week"
+                }
+
+                series = [];
+
+                if(plays.length != 0){
+                    series.push({
+                        name: 'all time',
+                        data: plays
+                    })
+                };
+                if(playsThisMonth.length != 0){
+                    series.push({
+                        name: 'this month',
+                        data: playsThisMonth
+                    })
+                };
+                if(playsThisWeek.length != 0){
+                    series.push({
+                        name: 'this week',
+                        data: playsThisWeek
+                    })
+                };
+
+                console.log(series);
 
                 $('#container').highcharts({
                     chart: {
@@ -242,16 +292,7 @@ var load = function (method) {
                     credits: {
                         enabled: false
                     },
-                    series: [{
-                        name: 'all time',
-                        data: plays
-                    }, {
-                        name: 'this month',
-                        data: playsThisMonth
-                    }, {
-                        name: 'this week',
-                        data: playsThisWeek
-                    }]
+                    series: series
                 });
             });
         });
